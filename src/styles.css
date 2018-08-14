@@ -1,1 +1,609 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Global variables */
+:root {
+	--color-light-gray: hsl(220, 10%, 85%);
+	--color-red: hsl(0, 80%, 48%);
+	--color-yellow: gold;
+	--color-green: hsl(85, 90%, 37%);
+	--color-orange: hsl(30, 100%, 50%);
+	--color-blue: hsl(210, 80%, 45%);
+	--color-purple: purple;
+
+	--top-bar-height: 80px;
+	--bottom-bar-height: 120px;
+	--main-page-height: 75%;
+	--page-number-height: 50px;
+	--side-bar-width: 12%;
+}
+
+
+
+html {
+	margin: 0;
+	padding: 0;
+	overflow-y:scroll;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Lato", sans-serif;
+	/*padding-top:30px;*/
+  background-color: #CFCFCF;
+
+}
+
+textarea {
+	width: 100%;
+}
+
+/***************************
+Top Navigation Bar
+****************************/
+.topNav {
+	margin: 0;
+	padding: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--top-bar-height);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.topButtons {
+	width: calc(100% - var(--side-bar-width));
+	background-color: #CFCFCF;
+	display: flex;
+	justify-content: space-between;
+}
+
+.topLeftButtons {
+	height: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.topRightButtons {
+	height: 100%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.topRightButtons > *{
+	margin-right: 20px;
+}
+
+.topLeftButtons > * {
+	margin-left: 20px;
+}
+
+#addPageButton {
+	border: none;
+	height: 42px;
+	width: 110px;
+	background:url(assets/addPageButton.png) no-repeat;
+	background-size: 100%;
+}
+
+#deletePageButton {
+	border: none;
+	height: 42px;
+	width: 118px;
+	background:url(assets/deletePageButton.png) no-repeat;
+	background-size: cover;
+}
+
+.toggleSceneObjectsButton {
+	border: none;
+	height: 42px;
+	width: 90px;
+}
+
+#hideSceneObjectsButton {
+	background:url(assets/hideSceneObjectsButton.png) no-repeat;
+	background-size: 100%;
+}
+
+#showSceneObjectsButton {
+	background:url(assets/showSceneObjectsButton.png) no-repeat;
+	background-size: 100%;
+}
+
+#imageReuploadButton {
+	border: none;
+	height:42px;
+	width: 110px;
+	background:url(assets/uploadButton.png) no-repeat;
+	background-size: 100%;
+}
+
+#submitButton {
+	border: none;
+  padding: 0;
+	height: 50px;
+	width: 133px;
+	background:url(assets/submitButton.png) no-repeat;
+	background-size: 100%;
+}
+
+/*******************
+Side Preview Bar
+********************/
+.sideNav {
+    height: 100%; /*var(--main-page-height);*/
+    width: var(--side-bar-width);
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    background-color: #C5C5C5;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /*top: var(--top-bar-height);*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.preview {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	display: flex;
+	justify-content: center;
+	min-height: 82px;
+}
+
+.preview-white-background {
+	background: white;
+	height: 82px;
+	width: 140px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.preview-image-container {
+	height: 95%;
+	width: 46%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.preview-text-container {
+	height: 95%;
+	width: 46%;
+	text-wrap: normal;
+	font-size: 3pt;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.preview-thumbnail {
+	max-height: 97%;
+	max-width: 97%;
+}
+
+/**********************
+Main Page Container
+***********************/
+#mainPage {
+	position: fixed;
+  margin-left: var(--side-bar-width); /* Same as the width of the sidenav */
+  height: var(--main-page-height);
+  width: calc(100% - var(--side-bar-width));
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 20px 20px;
+  top: var(--top-bar-height);
+	background-color: #D8D8D8;
+	display:flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#mainPageTopStory {
+  height: calc(100% - var(--page-number-height));
+  width: calc(100% - 40px);
+  font-size: 28px; /* Increased text to enable scrolling */
+	background-color: #D8D8D8;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#mainPageBottom {
+	height: var(--page-number-height);
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#pageNumber {
+	font-size: 20px;
+	color: #666666;
+}
+
+.deletebtnimg{
+	 max-width: 90%;
+   max-height: 90%;
+}
+
+/**********************
+Title Page Container
+***********************/
+#mainPageTopTitle {
+	height: calc(100% - var(--page-number-height));
+  width: calc(100% - 40px);
+	background-color: #D8D8D8;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#titlePageTopContainer {
+	width: 100%;
+	height: 80%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#titlePageImage {
+	height: 90%;
+	width: 65%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: white;
+}
+
+#titlePageTargetWords {
+	height: 90%;
+	width: 33%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow-y: scroll;
+	font-size: 12pt;
+	background: white;
+}
+
+#titlePageBottomContainer {
+	width: 100%;
+	height: 15%;
+	margin-bottom: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+#titleTextInput {
+	text-align: center;
+	font-size: 30pt;
+}
+
+#titleImageBox {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#uploadedTitleImage {
+	max-width: 80%;
+	max-height: 90%;
+}
+
+/****************
+Target Words
+*****************/
+.targetWordContainer {
+	margin-top: 2%;
+	width: 75%;
+	padding: 1%;
+	display: flex;
+	justify-content: space-between;
+	border: .5pt solid black;
+}
+
+.targetWordDeleteContainer {
+	width: 20%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.deleteTargetWordButton {
+	/* Add in an icon */
+	width: 20px;
+	height: 20px;
+	border: none;
+	background:url(assets/deleteSceneObject.png) no-repeat;
+	background-size: 100%;
+}
+
+.targetWordTextArea {
+	width: 80%;
+	font-size: 20px;
+}
+
+#addTargetWordButton {
+	margin-top: 10px;
+	width: 160px;
+	height: 50px;
+	/* Add in an icon */
+}
+
+
+/*********************
+Image Panel
+**********************/
+#imageContainer{
+/*	padding: 10px;
+	display:inline-block;
+	float: left;
+	width: 49%;
+	height: 80vh;
+	background-color: var(--color-light-gray);
+	position: relative;*/
+	border: 1px solid black ;
+	border-style: solid;
+	width: 48%;
+	height: 500px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+}
+
+/* Should be similar to imageReuploadButton */
+.imageUploadButton {
+	border: none;
+	width: 157px;
+	height: 60px;
+	background:url(assets/uploadButton.png) no-repeat;
+	background-size: 100%;
+}
+
+#uploadImageFileInput {
+	display: none;
+}
+
+#imageBox{
+	margin-left: 20px;
+	margin-top: 20px;
+	width: 100%;
+	height: 100%;
+	font-size: 12px; /* For the labels */
+}
+
+#uploadedImage{
+	text-align: center;
+	position: absolute;
+	max-width: 40%;
+	max-height: 50%;
+}
+
+canvas {
+	position: absolute;
+}
+
+.drawnRect{
+	border: 1px solid #000000;
+}
+
+#sceneObjectLabelButtonContainer {
+	position: fixed;
+}
+
+.sceneObjectBox{
+	display: flex;
+	flex-direction: row;
+}
+
+.deleteButton{
+	height: 20px;
+	width: 20px;
+	padding: 0;
+	border: none;
+	background: none;
+}
+
+/****************
+Text Panel
+*****************/
+#textContainer{
+	border: 1px solid black ;
+	border-style: solid;
+	width: 48%;
+	height: 500px;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/*.textArea{
+	white-space: pre-line;
+	overflow-wrap: break-word;
+	height: 80%;
+	overflow-y: auto;
+}*/
+
+#storyTextAreaInput {
+	margin-bottom: 2%;
+}
+
+#promptContainer {
+	overflow-y: scroll;
+	max-height: 63%;
+	width: 97%;
+}
+
+.prompt{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 14pt;
+	border: 1pt black solid;
+	margin-bottom: 8px;
+}
+
+.promptTextContainer {
+	width: 92%;
+}
+
+.promptText {
+	margin: 0px;
+}
+
+.deletePromptContainer {
+	width: 8%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.deletePromptButton {
+	width: 30px;
+	height: 30px;
+	border: none;
+	background:url(assets/deleteSceneObject.png) no-repeat;
+	background-size: 100%;
+}
+
+.questionTextArea, .responseTextArea {
+	width: 100%;
+}
+
+.addPromptContainer {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-item: center;
+	margin-bottom: 8px;
+}
+
+#addPromptButton {
+	width: 150px;
+	height: 65px;
+	border: none;
+	background:url(assets/addPromptButton.png) no-repeat;
+	background-size: 100%;
+}
+
+/***********************
+Botton Tool Bar
+************************/
+.bottomNav {
+  overflow: hidden;
+  padding-bottom: 20px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  height: var(--bottom-bar-height);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.bottomButtons {
+	width: calc(100% - var(--side-bar-width));
+	padding: 20px 0px;
+	background-color: #CFCFCF;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+  align-items: center;
+}
+
+.bottomCenterButtons {
+	height: 100%;
+	width: 80%; /* Big enough to hold all items */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bottomCenterButtons > * {
+	margin: 10px;
+}
+
+.arrow{
+	border: none;
+  outline:none;
+	width: 160px;
+	height: 90px;
+}
+
+#recordButton {
+	border: none;
+	padding: 0;
+	height: 40px;
+	width: 40px;
+	background:url(assets/recordButton.png) no-repeat;
+	background-size: 100%;
+}
+
+/* TODO: change this to the real button png later */
+#endRecordButton {
+	border: none;
+	padding: 0;
+	height: 40px;
+	width: 40px;
+	background:url(assets/stopRecordButton.png) no-repeat;
+	background-size: 100%;
+}
+
+#uploadAudioButton {
+	border: none;
+	height: 40px;
+	width: 90px;
+	background:url(assets/uploadAudioButton.png) no-repeat;
+	background-size: cover;
+}
+
+#uploadAudioFileInput {
+	display: none;
+}
+
+#nextButton {
+	border: none;
+	background:url(assets/nextButtonArrow.png) no-repeat;
+	background-size: 100%;
+	margin-right: 20px;
+}
+
+#backButton {
+	border: none;
+	background:url(assets/backButtonArrow.png);
+	background-size: 100%;
+	margin-left: 20px;
+}
+
+
+/* Disable selection highlight on drag. */
+canvas {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Unsure what this is, ask Hiya*/
+@media screen and (max-height: 450px) {
+    .sideNav {padding-top: 20px;}
+    .sideNav a {font-size: 18px;}
+}

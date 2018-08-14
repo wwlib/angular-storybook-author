@@ -1,20 +1,146 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<!-- Top navigation bar with key functions like adding a page and submitting to the cloud. -->
+<div class="topNav">
+    <div class="topButtons">
 
+        <div class="topLeftButtons">
+            <button id="addPageButton" (click)="addPageAfterCurrent()"></button>
+            <button id="deletePageButton" (click)="deleteCurrentPage()" *ngIf="pageNumber != 0"></button>
+            <button id="hideSceneObjectsButton" class="toggleSceneObjectsButton" (click)="toggleSceneObjects()" *ngIf="sceneObjectsHidden.hidden == false"></button>
+            <button id="showSceneObjectsButton" class="toggleSceneObjectsButton" (click)="toggleSceneObjects()" *ngIf="sceneObjectsHidden.hidden == true"></button>
+            <button id="imageReuploadButton" (click)="uploadImageClick()" *ngIf="images[pageNumber]"></button>
+        </div>
+
+        <div class="topRightButtons">
+            <button id="submitButton" (click)="submitStory()"></button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Preview bar on the left side of the page that shows thumbnails of the pages -->
+<div class="sideNav">
+    <div class="preview" *ngFor="let page of pages; index as i" >
+        <div class="preview-white-background" [ngStyle]="{'border':previewBorderStyle(i)}" (click)="goToSelectedPage(i)">
+            <div class="preview-image-container">
+                <img class="preview-thumbnail" [src]="getPreviewThumbnail(i)" />
+            </div>
+            <div class="preview-text-container">
+                <p>{{getPreviewText(i)}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The main div for where the story content appears. -->
+	<div id="mainPage" [ngStyle]="controlContainerSize()">
+
+        <!-- Title Page -->
+        <div id="mainPageTopTitle" *ngIf="pageNumber == 0">
+            <div id="titlePageTopContainer">
+                <div id="titlePageImage">
+                    <button class="imageUploadButton" (click)="uploadImageClick()" *ngIf="!images[pageNumber]"></button>
+
+                    <div id = "titleImageBox" *ngIf = "images[pageNumber]" >
+                        <img id = "uploadedTitleImage" [src]= "images[pageNumber].imageFile" appImageonload />
+                    </div>
+                </div>
+                <div id="titlePageTargetWords">
+                    <div class="targetWordContainer" *ngFor="let targetWord of targetWords; index as i">
+                        <input class="targetWordTextArea" rows="1" (keyup)="uploadTargetWord(i)" placeholder="New target word..." />
+                        <div class="targetWordDeleteContainer">
+                            <button class="deleteTargetWordButton" (click)="deleteTargetWord(i)"></button>
+                        </div>
+                    </div>
+                    <button id="addTargetWordButton" (click)="addTargetWordButtonClick()">Add Target Word</button>
+                </div>
+            </div>
+            <div id="titlePageBottomContainer">
+                <input id="titleTextInput" rows = "1" [(ngModel)]="inputText" (keyup)="uploadText($event)" placeholder="{{getPlaceholderText()}}" />
+            </div>
+        </div>
+
+        <!-- Regular Story Page -->
+        <div id="mainPageTopStory" *ngIf="pageNumber != 0">
+            <!-- Uploaded images appear here, and users can indicate and label objects in the image. -->
+            <div id = "imageContainer">
+                <button class="imageUploadButton" (click)="uploadImageClick()" *ngIf = "!images[pageNumber]"></button>
+            <input id="uploadImageFileInput" type="file" ng-file-select="onFileSelect($files)" accept="image/*" onchange="angular.element(this).scope().uploadImage(this.files)" />
+
+                <div id = "imageBox" *ngIf = "images[pageNumber]">
+                    <img id = "uploadedImage" [src]= "images[pageNumber].imageFile" appImageonload />
+
+                    <canvas id="drawnRectCanvas"> </canvas>
+                    <app-drawing rectangle='latestRectangle' sceneobjectshidden='sceneObjectsHidden'></app-drawing>
+                    <div id = "sceneObjectLabelButtonContainer">
+                        <div class = "sceneObjectBox" id = "{{i}}"  *ngFor = "let sceneObject of pages[pageNumber].sceneObjects">
+                            <span> {{sceneObject.label}} </span>
+                            <button class = "deleteButton">
+                                <img class = 'deletebtnimg' src = 'assets/deleteSceneObject.png'>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id = "textContainer">
+                <textarea id="storyTextAreaInput" rows = "5" [(ngModel)]="inputText" (keyup)="uploadText($event)" placeholder="{{getPlaceholderText()}}"> </textarea>
+                <div id="promptContainer">
+                    <div class="prompt" *ngFor="let prompt of pages[pageNumber].prompts; index as i">
+                        <div class="promptTextContainer">
+                            <div class="promptText">
+                                <textarea class="questionTextArea" rows="2" (keyup)="uploadQuestion(i)" placeholder="Question:">{{prompt.question}}</textarea>
+                            </div>
+                            <div class="promptText">
+                                <textarea class="responseTextArea" rows="2" (keyup)="uploadResponse(i)" placeholder="Response:">{{prompt.response}}</textarea>
+                            </div>
+                            <div class="promptHint">
+                                <textarea class="hintTextArea" rows="2" (keyup)="uploadHint(i)" placeholder="Hint(Optional):">{{prompt.hint}}</textarea>
+                            </div>
+                        </div>
+                        <div class="deletePromptContainer">
+                            <button class="deletePromptButton" (click)="deletePromptClick(i)"></button>
+                        </div>
+                    </div>
+                    <div class="addPromptContainer">
+                        <button id="addPromptButton" (click)="addPromptClick()"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div id="mainPageBottom">
+			<div id = "pageNumber"> {{getPageNumberDisplay()}} </div>
+		</div>
+
+        <!-- Bottom navigation bar controls audio and navigation of pages. -->
+    	<div class="bottomNav">
+    		<div class="bottomButtons">
+
+    			<div class="bottomLeftButtons">
+    				<button class = "arrow" id = "backButton" (click) = "prev()" [ngStyle]="{'visibility': pageNumber == 0?'hidden':'visible'}"></button>
+    			</div>
+
+    			<div class="bottomCenterButtons">
+
+    				<button id = "recordButton" (click) = "startRecord()" *ngIf="isRecording == false"></button>
+    				<button id = "endRecordButton" (mousedown) = "endRecord()" *ngIf="isRecording == true"></button>
+
+    				<p style="vertical-align: middle; margin: 2px;">or</p>
+
+    				<!-- Attach audio uploader to this, but hide the input and only show the button. -->
+    				<button id="uploadAudioButton" (click)="uploadAudioClick()"></button>
+    		    <input id="uploadAudioFileInput" type="file" ng-file-select="onFileSelect($files)" accept="audio/wav" onchange="angular.element(this).scope().saveAudioFile(this.files)" />
+
+    				<div id = "audioBox" *ngIf = "pages[pageNumber].audio != null">
+    					<audio controls [src]="getAudioFileName()" type = "audio/wav" ></audio>
+    				</div>
+    			</div>
+
+    			<div class="bottomRightButtons">
+    				<button class = "arrow" id="nextButton" (click) = "next()"></button>
+    			</div>
+
+    		</div>
+    	</div>
+
+	</div>
