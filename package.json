@@ -3,6 +3,14 @@
   "version": "0.0.0",
   "license": "MIT",
   "main": "main.js",
+  "repository" : {
+      "type" : "git",
+      "url" : "https://github.com/wwlib/angular-storybook-author.git"
+  },
+  "author": "Hanna Lee",
+  "contributors": [
+    "Andrew Rapo <andrew@wwlib.org> (http://wwlib.github.io)"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
